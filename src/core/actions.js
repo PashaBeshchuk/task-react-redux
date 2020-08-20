@@ -1,6 +1,6 @@
 import { UPDATE_USERS } from "./actionsTypes";
 
-import { apiUsers } from '../api/api-users';
+import { apiUsers } from './users.services';
 
 export const getAllUsersThunk = () => {
     return async (dispatch) => {

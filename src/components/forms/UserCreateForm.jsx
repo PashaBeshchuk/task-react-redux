@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './Form';
 import {reset} from 'redux-form';
 import { connect } from 'react-redux';
-import { addNewUserThunk } from '../../redux/actions';
+import { addNewUserThunk } from '../../core/actions';
 
 const UserCreateForm = ({addNewUserThunk, reset}) => {
     const onSubmit = (userData) => {

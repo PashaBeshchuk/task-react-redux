@@ -1,4 +1,4 @@
-import { UPDATE_USERS } from "./actionsTypes"
+import { UPDATE_USERS } from "../../core/actionsTypes"
 
 const initState = {
     users:[]

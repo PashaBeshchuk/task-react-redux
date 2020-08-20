@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { requiredField } from './validateForm';
+import { requiredField } from './usersForm.validate';
 import { inputForm } from './FormsElements';
 const Form = (props) => {
     return <form onSubmit={props.handleSubmit}>

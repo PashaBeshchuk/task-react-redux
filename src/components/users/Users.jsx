@@ -1,11 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
-const Users = ({users, editStateUser, saveUser, editDataUser, newUserData, deleteUser, cencel}) => {
+const Users = ({users, deleteUser, updateUserDataThunk}) => {
+    const [userData, setUserData] = useState({id: "", name:"", surname:"", desc:""});
+    const cencel = () => {
+        users.forEach(user => {
+            user.editState = false;
+        });
+        setUserData(({id: "", name:"", surname:"", desc:""}));
+    }
+    //save your changes
+    const saveUser = (user) => {
+        const {editState, ...userData} = user;
+        if(userData.id && userData.name && userData.surname && userData.desc) {
+            updateUserDataThunk(userData);
+            cencel();
+        }
+    }  
+    const editUserData = (e) => {
+        switch(e.target.name){
+            case "name": 
+                setUserData({...userData, name: e.target.value});      
+                break;
+            case "surname":
+                setUserData({...userData, surname: e.target.value}); 
+                break;
+            case "desc":
+                setUserData({...userData, desc: e.target.value}); 
+                break;    
+        }
+    }
+    const editStateUser = (e) => {
+        users.forEach(user => {
+            if(user.id === Number(e.target.id)) { 
+                user.editState = true;
+                setUserData(user);
+            }
+        });
+    }
+
     return <>
         <div className="container">
             <table className="table table-striped">
-                <thead>
+                   <thead>
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
@@ -21,10 +58,10 @@ const Users = ({users, editStateUser, saveUser, editDataUser, newUserData, delet
                             { user.editState ?
                                 <>
                                     <th scope="row">{index+1}</th>
-                                    <td><input className="form-control" value={newUserData.name} onChange={editDataUser} name="name"/></td>
-                                    <td><input className="form-control" value={newUserData.surname} onChange={editDataUser} name="surname"/></td>
-                                    <td><input className="form-control" value={newUserData.desc} onChange={editDataUser} name="desc"/></td>
-                                    <td><button className="btn" onClick={saveUser} id={user.id}>Save</button></td>
+                                    <td><input className="form-control" value={userData.name}  onChange={editUserData} name="name"/></td>
+                                    <td><input className="form-control" value={userData.surname} onChange={editUserData} name="surname"/></td>
+                                    <td><input className="form-control" value={userData.desc}  onChange={editUserData} name="desc"/></td>
+                                    <td><button className="btn" onClick={()=>saveUser(userData)} id={user.id}>Save</button></td>
                                     <td><button className="btn" onClick={cencel}>Cencel</button></td>
                                 </>
                                 :
@@ -36,10 +73,7 @@ const Users = ({users, editStateUser, saveUser, editDataUser, newUserData, delet
                                     <td><button className="btn" onClick={editStateUser} id={user.id}>Edit</button></td>
                                     <td><button className="btn" onClick={deleteUser} id={user.id}>Delete</button></td>
                                 </>
-                            }
-                            
-                            
-                            
+                            } 
                         </tr>
                     })}
                 </tbody>
